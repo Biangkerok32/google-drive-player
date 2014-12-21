@@ -1,0 +1,73 @@
+<html>
+<head>
+    <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <link href="./node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="./node_modules/angular/angular.min.js"></script>
+    <script src="./src/app.js"></script>
+</head>
+    <body ng-app="app" ng-controller="AuthController">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                  <a class="navbar-brand" href="#">Google Drive Player</a>
+                </div>
+        
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                  <ul class="nav navbar-nav">
+                    <li ng-show="accessToken"><a ng-click="logout();">Logout</a></li>
+                    <li ng-hide="accessToken"><a ng-click="login();">Login</a></li>
+                    <li ng-show="accessToken"><a data-toggle="modal" data-target="#find-folder-modal">Folder Path</a></li>
+                  </ul>
+                  <ul class="nav navbar-nav navbar-right">
+                  </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="modal fade" id="find-folder-modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Enter the name of the folder which contains your music (case sensitive)</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form" ng-submit="findFolder();">
+                            <div ng-class="{'has-error': error}" class="form-group">
+                                <label ng-show="error" class="control-label" for="form.folder">{{ error }}</label>
+                                <input type="text" class="form-control" ng-model="form.folder" placeholder="My Music" />
+                            </div>
+                            <button class="btn btn-default">Find</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div ng-controller="PlayerController">
+            <div style="position: fixed; top: 50px; width: 100%; background-color: white; border-bottom: 1px solid rgb(221, 221, 221); z-index: 100;" id="player">
+                <div ng-show="(songs.currentSongIndex != null) && (songs.currentSongIndex > -1)">
+                    <div style="text-align: center; margin-bottom: 10px;">
+                        <h3>{{ songs[songs.currentSongIndex].title }}</h3>
+                        <h5>Playing From Drive Folder: {{ folderName }}</h5>
+                    </div>
+                    <audio style="width: 100%; margin-bottom: 10px; display: inline;" class="m-b" ng-src="{{ songs[songs.currentSongIndex].link }}" autoplay=true controls preload="auto" autobuffer></audio>
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <button ng-click="playerPlayPrevious();" type="button" class="btn btn-default">Previous</button>
+                        <button ng-click="playerPlayNext();" type="button" class="btn btn-default">Next</button>
+                        <button ng-show="playerShuffled" ng-click="playerSort();" type="button" class="btn btn-default">Sort</button>
+                        <button ng-hide="playerShuffled" ng-click="playerShuffle();" type="button" class="btn btn-default">Shuffle</button>
+                    </div>
+                </div>
+            </div>
+            <table style="position: relative; top: 225px;" class="table">
+                <tr ng-repeat="song in songs" ng-click="playerPlay($index);" ng-class="{info: songs.currentSongIndex == $index}"><td>{{ $index+1 }}.</td><td>{{ song.title }}</td></tr>
+            </table>
+        </div>
+    </body>
+</html>
