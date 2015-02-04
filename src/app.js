@@ -18,7 +18,7 @@ angular.module("app", [])
         var OAUTHURL         = 'https://accounts.google.com/o/oauth2/auth?';
         var SCOPE            = 'https://www.googleapis.com/auth/drive';
         var CLIENTID         = '678077515881-lhvqjstk3kprf0ju8grnml2u8i148k98.apps.googleusercontent.com';
-        var REDIRECT         = 'http://{{ domain }}/oauth2callback'
+        var REDIRECT         = 'http://{{ domain }}:{{ port }}/oauth2callback'
         //var LOGOUT         = 'http://accounts.google.com/Logout';
         var TYPE             = 'token';
         var OAUTHLOGINURL    = OAUTHURL + "scope=" + SCOPE + "&client_id=" + CLIENTID + "&redirect_uri=" + REDIRECT + "&response_type=token";

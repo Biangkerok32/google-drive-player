@@ -20,7 +20,7 @@ app.get("/", function (req, res) {
 
 var appjs = swig.compileFile(path.join(__dirname, "/src/app.js"));
 app.get("/src/app.js", function (res, res) {
-    res.send(appjs({domain: DOMAIN}));
+    res.send(appjs({domain: DOMAIN, port: PORT}));
 });
 
 app.get("/oauth2callback", function (req, res) { res.send("<html></html>"); });
