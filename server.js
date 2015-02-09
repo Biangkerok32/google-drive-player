@@ -5,7 +5,7 @@ var fs = require("fs");
 
 var app = express();
 
-app.set("port", process.env.PORT || 80);
+app.set("port", process.argv[2] || process.env.PORT || 80);
 app.use(app.router);
 console.log(__dirname);
 app.use(express.directory(__dirname));
